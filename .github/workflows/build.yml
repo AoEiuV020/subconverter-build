@@ -245,7 +245,7 @@ jobs:
         tag_name: ${{ env.VERSION }}
 
   release_publish:
-    needs: [ windows32_build, windows64_build, macos_build, aarch64_build, armv7_build, linux64_build, linux32_build ]
+    needs: [ windows32_build, windows64_build, macos_build, linux64_build, linux32_build ]
     name: publish release
     runs-on: ubuntu-latest
     steps:
