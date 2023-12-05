@@ -254,7 +254,7 @@ jobs:
         VERSION=$(date +'%Y%m%d')
         echo VERSION="$VERSION" >> $GITHUB_ENV
     - name: publish release
-      uses: softprops/action-gh-release@v1
+      uses: freckle/action-gh-release@main
       with:
         draft: false
         tag_name: ${{ env.VERSION }}
