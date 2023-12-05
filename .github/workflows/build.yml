@@ -252,9 +252,14 @@ jobs:
     - name: setup version name
       run: |
         VERSION=$(date +'%Y%m%d')
-        echo VERSION="$VERSION" >> $GITHUB_ENV
+        # 使用curl发送请求，包括state参数以获取draft状态的release
+        REALEASE_ID=$(curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+          "https://api.github.com/repos/$GITHUB_REPOSITORY/releases?state=all" | \
+          jq ".[] | select(.name == \"$VERSION\") | .id" -r)
+        echo REALEASE_ID="$REALEASE_ID" >> $GITHUB_ENV
     - name: publish release
-      uses: freckle/action-gh-release@main
+      uses: eregon/publish-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        draft: false
-        tag_name: ${{ env.VERSION }}
+        release_id: ${{ env.REALEASE_ID }}
